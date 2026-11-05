@@ -119,7 +119,7 @@ def SKB_with_auto(image_path,device="cuda",dataset="example"):
         plt.close()
 
 if __name__ == '__main__':
-    device = "cpu"
+    device = "cuda"
     dataset="example"
     image_path = f"data/raw_images/{dataset}"
     for img in os.listdir(image_path):
