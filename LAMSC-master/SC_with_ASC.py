@@ -100,12 +100,12 @@ def train_SCNet(model, train_dataloader, arg:params):
             x = x.to(arg.device)
             c_code, c_code_, s_code, s_code_, im_decoding = model(x)
             loss_ch = mse(s_code,s_code_)
-            try:
-                loss_ch.backward()
-            except RuntimeError as e:
-                diagnose_grad(loss_ch, model, tag="SCNet/loss_ch")
-                raise e
-            #loss_ch.backward()
+            #try:
+                #loss_ch.backward()
+            #except RuntimeError as e:
+                #diagnose_grad(loss_ch, model, tag="SCNet/loss_ch")
+                #raise e
+            loss_ch.backward()
             optimizer_Ch.step()
             losses.append(loss_ch.item())
         # training SC model
@@ -122,12 +122,12 @@ def train_SCNet(model, train_dataloader, arg:params):
             # loss_MI = torch.mean(t) - torch.log(torch.mean(et))
             # compute SC loss
             # loss_SC = loss_SC + loss_MI
-            try:
-                loss_SC.backward()
-            except RuntimeError as e:
-                diagnose_grad(loss_SC, model, tag="SCNet/loss_SC")
-                raise e
-            #loss_SC.backward()
+            #try:
+                #loss_SC.backward()
+            #except RuntimeError as e:
+                #diagnose_grad(loss_SC, model, tag="SCNet/loss_SC")
+                #raise e
+            loss_SC.backward()
             optimizer_SC.step()
             losses.append(loss_SC.item())
         losses = np.mean(losses)
@@ -176,12 +176,12 @@ def train_MASKNet(model, train_dataloader, arg:params):
             # compute SC loss
             loss_SC = mse(im_decoding, x)
             loss = loss_SC + loss_ch
-            try:
-                loss.backward()
-            except RuntimeError as e:
-                diagnose_grad(loss, model, tag="MASKNet/loss")
-                raise e
-            #loss.backward()
+            #try:
+                #loss.backward()
+            #except RuntimeError as e:
+                #diagnose_grad(loss, model, tag="MASKNet/loss")
+                #raise e
+            loss.backward()
             optimizer.step()
             scheduler.step(loss)
             losses.append(loss.item())
