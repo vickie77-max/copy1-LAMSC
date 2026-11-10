@@ -47,6 +47,7 @@ class MaskNet(nn.Module):
         self.conv2 = nn.Conv2d(128, input_dim, kernel_size=3,padding=1)
 
     def forward(self, x):
+        print("🚨 MaskNet 被调用了！输入梯度状态:", x.requires_grad) 
         y = self.conv1(x)
         y = F.relu(y)
         mask = self.conv2(y) + torch.abs(x)
