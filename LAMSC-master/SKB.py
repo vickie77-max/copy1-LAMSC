@@ -124,5 +124,10 @@ if __name__ == '__main__':
     image_path = f"data/raw_images/{dataset}"
     for img in os.listdir(image_path):
         print(f"正在尝试读取: {img}")
-        img_path = os.path.join(image_path,img)
+        if not img.lower().endswith(('.jpg', '.jpeg', '.png')):
+            continue   
+        img_path = os.path.join(image_path, img)
+        # 过滤2：确保它是一个文件，而不是文件夹
+        if not os.path.isfile(img_path):
+            continue
         SKB_with_auto(img_path,device,dataset)
