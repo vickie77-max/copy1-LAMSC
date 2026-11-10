@@ -172,6 +172,7 @@ def train_MASKNet(model, train_dataloader, arg:params):
             model.zero_grad()
             x = x.to(arg.device)
             c_code, c_code_, s_code, s_code_, im_decoding = model(x)
+            print(f"s_code有梯度: {s_code.requires_grad} | im_decoding有梯度: {im_decoding.requires_grad}")
             loss_ch = mse(s_code, s_code_)
             # compute SC loss
             loss_SC = mse(im_decoding, x)
