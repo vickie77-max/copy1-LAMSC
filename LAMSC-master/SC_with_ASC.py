@@ -159,7 +159,7 @@ def train_MASKNet(model, train_dataloader, arg:params):
                                  weight_decay=arg.weight_delay)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min',
                                                            factor=0.1, patience=100,
-                                                           verbose=True, threshold=0.0001,
+                                                           threshold=0.0001,
                                                            threshold_mode='rel',
                                                            cooldown=0, min_lr=0, eps=1e-08)
     mse = nn.MSELoss()
