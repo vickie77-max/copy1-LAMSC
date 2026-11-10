@@ -123,5 +123,6 @@ if __name__ == '__main__':
     dataset="example"
     image_path = f"data/raw_images/{dataset}"
     for img in os.listdir(image_path):
+        print(f"正在尝试读取: {img}")
         img_path = os.path.join(image_path,img)
         SKB_with_auto(img_path,device,dataset)
