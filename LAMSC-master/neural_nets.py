@@ -52,7 +52,9 @@ class MaskNet(nn.Module):
         mask = self.conv2(y) + torch.abs(x)
         # mask = torch.sign(mask)
         # mask = F.relu(mask)
-        mask = (mask > 0).float()
+        mask_hard = (mask > 0).float()
+        mask = mask_hard - mask.detach() + mask 
+        # mask = (mask > 0).float()
         x = torch.mul(x, mask)
         # print(x.shape)
         # index = torch.where(x!=0)
