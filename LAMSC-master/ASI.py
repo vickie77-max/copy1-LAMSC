@@ -37,6 +37,10 @@ class train_datasets(Dataset):
     def __getitem__(self, item):
         merge_imgs = []
         imgs_path = []
+        #新增，查看 os.listdir 到底给出了什么顺序，以及文件是如何和 label 绑定的
+        raw_files = os.listdir(self.seg_imgs_path[item])
+        print(f"\n================ [读取数据] 当前样本文件夹: {os.path.basename(self.seg_imgs_path[item])} ================")
+        print(f"【新增打印】os.listdir 原本的文件顺序: {raw_files}")
         for seg_img in os.listdir(self.seg_imgs_path[item]):
             if seg_img.endswith(".jpg") or seg_img.endswith('.png'):
                 seg_img_path = os.path.join(self.seg_imgs_path[item],seg_img)
@@ -44,11 +48,20 @@ class train_datasets(Dataset):
                 img = self.img_transform(img)
                 merge_imgs.append(img)
                 imgs_path.append(seg_img_path)
+                # 【新增打印】查看当前读的是第几个文件
+                print(f"【新增打印】 -> 放入模型输入的第 {len(merge_imgs)-1} 个位置的文件是: {seg_img}")
         temp_merge_imgs = merge_imgs[0]
         for img in merge_imgs[1:]:
             temp_merge_imgs = torch.cat((temp_merge_imgs, img), dim=0) # merge all segments into an image
         label = json.load(open(os.path.join(self.seg_imgs_path[item],r"label.txt")))
         label = torch.Tensor(np.array(label))
+        # 【新增打印】查看标签，并告诉你标签的 1 对应了哪个文件
+        print(f"【新增打印】当前样本的 Label 为: {label.tolist()}")
+        for idx, val in enumerate(label.tolist()):
+            if val == 1.0:
+                # 如果该位置是1，找出对应位置的文件名
+                if idx < len(imgs_path):
+                    print(f"⭐【核心揭晓】Label 中第 {idx} 个位置是 1，这意味着模型将会被强迫认为文件 [{os.path.basename(imgs_path[idx])}] 是正确的目标！")
         return temp_merge_imgs, label, imgs_path
 
     def transform(self):
