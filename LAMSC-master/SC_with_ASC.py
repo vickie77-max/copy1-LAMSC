@@ -212,7 +212,7 @@ def data_transmission(img_path,dataset="example"):
     SC_model = SCNet(input_dim=3, ASC=True)
     channel_model = channel_net(in_dims=5408, snr=arg.snr)
     model = base_net(SC_model, channel_model)
-    weights_path = os.path.join(arg.checkpoint_path, f"{arg.save_model_name}_snr{arg.snr}.pth")
+    weights_path = os.path.join(arg.checkpoint_path, f"{arg.save_model_name}_snr{arg.snr}1.pth")
     weight = torch.load(weights_path,map_location="cpu")
     model.load_state_dict(weight)
     model.to(arg.device)
