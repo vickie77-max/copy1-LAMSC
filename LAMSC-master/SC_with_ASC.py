@@ -27,7 +27,7 @@ class params():
     epoch = 100 # training epoch
     lr = 1e-4 # learning rate
     batchsize = 128
-    snr = 20 # SNR setting
+    snr = 100 # SNR setting
     weight_delay = 1e-6
     use_ASC = True # using ASC or not
     save_model_name = "LAM-SC" # name of the save model weights
