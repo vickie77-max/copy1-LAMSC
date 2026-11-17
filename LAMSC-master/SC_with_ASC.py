@@ -24,7 +24,7 @@ class params():
     device = "cuda"
     dataset = r"data/semantic-aware_images" # path to dataset
     log_path = "logs" # path to logs
-    epoch = 100 # training epoch
+    epoch = 500 # training epoch
     lr = 1e-4 # learning rate
     batchsize = 128
     snr = 100 # SNR setting
