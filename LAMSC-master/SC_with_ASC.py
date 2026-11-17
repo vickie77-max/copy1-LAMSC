@@ -155,7 +155,7 @@ def train_MASKNet(model, train_dataloader, arg:params):
         param.requires_grad = False
     for param in model.isc_model.Mask.parameters():
         param.requires_grad = True
-    optimizer = torch.optim.Adam(model.isc_model.Mask.parameters(), lr=arg.lr,
+    optimizer = torch.optim.Adam(model.isc_model.Mask.parameters(), lr=1e-5,
                                  weight_decay=arg.weight_delay)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min',
                                                            factor=0.1, patience=100,
