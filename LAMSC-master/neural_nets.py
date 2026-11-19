@@ -12,8 +12,10 @@ class SCNet(nn.Module):
     def __init__(self,input_dim=3, ASC=False):
         super(SCNet, self).__init__()
         self.conv1 = nn.Conv2d(input_dim, 128, kernel_size=5,bias=False)
+        self.bn1 = nn.BatchNorm2d(128)
         self.pool = nn.MaxPool2d((2, 2),return_indices=True)
         self.conv2 = nn.Conv2d(128, 32, kernel_size=5,bias=False)
+        self.bn2 = nn.BatchNorm2d(32)
         self.use_ASC = ASC
         self.Mask = MaskNet(32) # mask network,无条件创建
         self.convt1= nn.ConvTranspose2d(32, 128, kernel_size=5)
@@ -22,9 +24,9 @@ class SCNet(nn.Module):
 
     def forward(self, x = None, latent = None):
         if latent == None:
-            x = F.leaky_relu(self.conv1(x))
+            x = F.leaky_relu(self.bn1(self.conv1(x)))
             x, self.indices1 = self.pool(x)
-            x = F.leaky_relu(self.conv2(x))
+            x = F.leaky_relu(self.bn2(self.conv2(x)))
             x, self.indices2 = self.pool(x)
             self.x_shape = x.shape
             if self.use_ASC: # using masknet to mask semantics
@@ -47,7 +49,7 @@ class MaskNet(nn.Module):
         self.conv2 = nn.Conv2d(128, input_dim, kernel_size=3,padding=1)
 
     def forward(self, x):
-        print("🚨 MaskNet 被调用了！输入梯度状态:", x.requires_grad) 
+        print("🚨 MaskNet 被调用了！输入梯度状态:", x.requires_grad) #增加
         y = self.conv1(x)
         y = F.relu(y)
         mask = self.conv2(y) + torch.abs(x)
