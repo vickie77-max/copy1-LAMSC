@@ -176,7 +176,8 @@ def train_MASKNet(model, train_dataloader, arg:params):
             loss_ch = mse(s_code, s_code_)
             # compute SC loss
             loss_SC = mse(im_decoding, x)
-            loss = loss_SC + loss_ch
+            #loss = loss_SC + loss_ch
+            loss = loss_SC + 0.1 * loss_ch
             #try:
                 #loss.backward()
             #except RuntimeError as e:
