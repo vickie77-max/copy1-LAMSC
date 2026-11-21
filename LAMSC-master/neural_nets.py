@@ -18,8 +18,8 @@ class SCNet(nn.Module):
         self.bn2 = nn.BatchNorm2d(32)
         self.use_ASC = ASC
         self.Mask = MaskNet(32) # mask network,无条件创建
-        self.convt1= nn.ConvTranspose2d(32, 128, kernel_size=5)
-        self.convt2 = nn.ConvTranspose2d(128, input_dim, kernel_size=5)
+        self.convt1= nn.ConvTranspose2d(32, 128, kernel_size=5,padding=2)
+        self.convt2 = nn.ConvTranspose2d(128, input_dim, kernel_size=5,padding=2)
         self.uppool = nn.MaxUnpool2d(2, 2)
 
     def forward(self, x = None, latent = None):
