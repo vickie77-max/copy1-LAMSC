@@ -36,8 +36,10 @@ class SCNet(nn.Module):
         else:
             x = latent.view(self.x_shape)
             x = self.uppool(x,self.indices2)
+            x = F.interpolate(x, size=(30, 30), mode='bilinear', align_corners=False)
             x = F.leaky_relu(self.convt1(x))
             x = self.uppool(x,self.indices1)
+            x = F.interpolate(x, size=(64, 64), mode='bilinear', align_corners=False)
             x = F.tanh(self.convt2(x))
             return x
 
