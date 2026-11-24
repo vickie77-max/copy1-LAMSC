@@ -24,7 +24,7 @@ class params():
     device = "cuda"
     dataset = r"data/semantic-aware_images" # path to dataset
     log_path = "logs" # path to logs
-    epoch = 500 # training epoch
+    epoch = 800 # training epoch
     lr = 1e-4 # learning rate
     batchsize = 128
     snr = 100 # SNR setting
@@ -176,8 +176,7 @@ def train_MASKNet(model, train_dataloader, arg:params):
             loss_ch = mse(s_code, s_code_)
             # compute SC loss
             loss_SC = mse(im_decoding, x)
-            #loss = loss_SC + loss_ch
-            loss = loss_SC + 0.1 * loss_ch
+            loss = loss_SC + loss_ch
             #try:
                 #loss.backward()
             #except RuntimeError as e:
