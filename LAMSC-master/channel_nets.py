@@ -8,10 +8,11 @@ import pickle
 def AWGN_channel(x, snr):  # used to simulate additive white gaussian noise channel.
     # Here, we provide the AWGN channel solely as an illustrative example.
     # Should you require a more complex channel model, you may substitute the corresponding function accordingly.
-    [batch_size, length] = x.shape
-    x_power = torch.sum(torch.abs(x)) / (batch_size * length)
+    
+    x_power = torch.mean(x ** 2)
     n_power = x_power / (10 ** (snr / 10.0))
-    noise = torch.rand(batch_size, length, device="cuda") *n_power
+    noise_std = torch.sqrt(n_power) 
+    noise = torch.randn_like(x) * noise_std
     return x + noise
 
 class channel_net(nn.Module):
